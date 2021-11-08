@@ -1,0 +1,69 @@
+{% extends 'iems_app/base.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+      <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          <div class="row justify-content-center mt-5">
+            <div class="col-md-5">
+                <h2>Registration</h2>
+                <label for="student_Id">Student ID</label>
+                <input type="text" name="student_Id" class="form-control" id="student_Id">
+
+                <label for="department">Department</label>
+                <input type="text" name="department" class="form-control" id="department">
+
+                <label for="batch_No">Batch No</label>
+                <input type="text" name="batch_No" class="form-control" id="batch_No">
+
+                <label for="semester">Semester</label>
+                <input type="text" name="semester" class="form-control" id="semester">
+
+                <label for="course_1">Course 1</label>
+                <input type="text" name="course_1" class="form-control" id="course_1">
+
+                <label for="courses_2">Course 2</label>
+                <input type="text" name="courses_2" class="form-control" id="courses_2">
+
+                <label for="courses_3">Course 3</label>
+                <input type="text" name="courses_3" class="form-control" id="courses_3">
+
+                <label for="courses_4">Course 4</label>
+                <input type="text" name="courses_4" class="form-control" id="courses_4">
+
+                <label for="courses_5">Course 5</label>
+                <input type="text" name="courses_5" class="form-control" id="courses_5">
+
+                <label for="courses_6">Course 6</label>
+                <input type="text" name="courses_6" class="form-control" id="courses_6">
+
+                <label for="courses_7">Course 7</label>
+                <input type="text" name="courses_7" class="form-control" id="courses_7">
+
+                <label for="courses_8">Course 8</label>
+                <input type="text" name="courses_8" class="form-control" id="courses_8">
+
+                <label for="courses_9">Course 9</label>
+                <input type="text" name="courses_9" class="form-control" id="courses_9">
+
+                <br>
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+                </div>
+
+            </div>
+          </div>
+        </div>
+
+      </form>
+  </body>
+</html>
+
+{% endblock %}
