@@ -1,7 +1,7 @@
 from django.forms import ModelForm
-from iems_app.models import CourseModel
+from iems_app.models import Course
 
 class CourseModelForm(ModelForm):
     class Meta():
-        model = CourseModel
+        model = Course
         fields = '__all__'

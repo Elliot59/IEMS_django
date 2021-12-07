@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
-    <h1>This is the homepage.</h1>
-  </body>
-</html>
+{% extends 'iems_app/base.html' %}
+{% block content %}
+
+<div class="content">
+        <a href="{% url 'signup' %}">Signup</a>
+        <br>
+        <a href="{% url 'login' %}">Login</a>
+</div>
+
+
+{% endblock %}

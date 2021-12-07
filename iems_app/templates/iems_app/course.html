@@ -1,26 +1,12 @@
-{% extends 'iems_app/base.html' %}
+{% extends 'iems_app/base_template.html' %}
 {% block content %}
 <div id="form-wrapper" style="max-width:500px;margin:auto;">
   <h1><b>Registered Courses</b></h1><br>
-  <form method="GET">
-    {% for item in form %}
-      <p1>Currently viewing {{ item.semester }}th semester.</p1><br><br><br>
-      <ul>
-        {% if item is not None %}
-          <li>Course 1: {{ item.course_1 }}</li>
-          <li>Course 2: {{ item.courses_2 }}</li>
-          <li>Course 3: {{ item.courses_3 }}</li>
-          <li>Course 4: {{ item.courses_4 }}</li>
-          <li>Course 5: {{ item.courses_5 }}</li>
-          <li>Course 6: {{ item.courses_6 }}</li>
-          <li>Course 7: {{ item.courses_7 }}</li>
-          <li>Course 8: {{ item.courses_8 }}</li>
-          <li>Course 9: {{ item.courses_9 }}</li>
-        {% endif %}
-      </ul>
+    {% for item in courses %}
+      {{ item.course.name }}
+      {{ item.course.code }}
+    <br>
     {% endfor %}
-
-  </form>
 </div>
 
 {% endblock %}

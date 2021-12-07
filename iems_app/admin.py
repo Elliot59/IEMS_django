@@ -1,7 +1,9 @@
 from django.contrib import admin
-from iems_app.models import CourseModel, StudentModel, StaffModel, AdminModel
+from iems_app.models import Course, Student, Faculty, Semester, CourseRegistration,Environment
 
-admin.site.register(CourseModel)
-admin.site.register(StudentModel)
-admin.site.register(StaffModel)
-admin.site.register( AdminModel)
+admin.site.register(Course)
+admin.site.register(Student)
+admin.site.register(Faculty)
+admin.site.register(Semester)
+admin.site.register(CourseRegistration)
+admin.site.register(Environment)
