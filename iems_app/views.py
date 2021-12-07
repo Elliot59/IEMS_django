@@ -10,7 +10,9 @@ from django.contrib.auth.decorators import login_required
 from django.utils.datastructures import MultiValueDictKeyError
 
 def home(request):
-    return render(request, 'iems_app/base_template.html')
+    if request.user and request.user.is_authenticated:
+        return render(request, 'iems_app/base_template.html')
+    return render(request, 'iems_app/index.html')
 
 def signupuser(request):
     if request.method == 'GET':
@@ -44,12 +46,10 @@ def loginuser(request):
             login(request, user)
             return redirect('course')
 
+
 def logoutuser(request):
-    if request.method == 'POST':
-        logout(request)
-        return redirect('login')
-    else:
-        return redirect('login')
+    logout(request)
+    return redirect('')
 
 
 @login_required
