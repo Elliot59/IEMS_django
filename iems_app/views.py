@@ -6,14 +6,16 @@ from django.http import HttpResponse
 from django.db import IntegrityError
 from iems_app.models import Course, Student, Semester, CourseRegistration, Environment
 from iems_app.forms import CourseModelForm
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.datastructures import MultiValueDictKeyError
+from iems_app.decorators import registration_authorized
 
 def home(request):
     if request.user and request.user.is_authenticated:
         return render(request, 'iems_app/base_template.html')
     return render(request, 'iems_app/index.html')
 
+#@user_passes_test
 def signupuser(request):
     if request.method == 'GET':
         return render(request, 'iems_app/signup.html', {'form': UserCreationForm()})
@@ -36,6 +38,7 @@ def signupuser(request):
             return render(request, 'iems_app/signup.html', {'form': UserCreationForm(), 'error': 'password did not match !'})
 
 def loginuser(request):
+
     if request.method == 'GET':
         return render(request, 'iems_app/login.html', {'form': AuthenticationForm()})
     else:
@@ -47,12 +50,14 @@ def loginuser(request):
             return redirect('course')
 
 
+
 def logoutuser(request):
     logout(request)
-    return redirect('')
+    return redirect('login')
 
 
 @login_required
+@registration_authorized
 def course_registration(request):
     if request.method == 'GET':
         return render(request, 'iems_app/register.html')

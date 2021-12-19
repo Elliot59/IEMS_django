@@ -10,5 +10,5 @@ urlpatterns=[
     path('semester/', views.semester_create, name='semester'),
     path('register/', views.course_registration, name='register'),
     path('student/', views.student_home, name='student'),
-    path('', views.home),
+    path('', views.home, name='home'),
 ]
