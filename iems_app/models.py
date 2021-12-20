@@ -8,6 +8,7 @@ class Teacher(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=42)
 
+
 class Student(models.Model):
     name = models.CharField(max_length=30)
     department = models.CharField(max_length=20)
@@ -15,10 +16,8 @@ class Student(models.Model):
     student_id = models.CharField(max_length=11)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-
     def __str__(self):
         return self.name
-
 
 
 class Semester(models.Model):
@@ -37,6 +36,7 @@ class Course(models.Model):
     def __str__(self):
         return self.code
 
+
 class Faculty(models.Model):
     class AllFaculty(models.TextChoices):
         CSE = 'cse', _('CSE')
@@ -50,24 +50,25 @@ class Faculty(models.Model):
     def __str__(self):
         return self.user.username
 
-class Batchcounselor(models.Model):
+
+class BatchCounselor(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    startDate= models.DateTimeField(auto_now_add=True)
+    startDate = models.DateTimeField(auto_now_add=True)
+
 
 class CourseRegistration(models.Model):
     semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    approvedBy = models.ForeignKey(Batchcounselor, null=True, on_delete=models.CASCADE)
+    approvedBy = models.ForeignKey(BatchCounselor, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.student.name
+
 
 class Environment(models.Model):
     key = models.CharField(max_length=128)
     value = models.CharField(max_length=128)
 
     def __str__(self):
-        return  self.key
-
-
+        return self.key

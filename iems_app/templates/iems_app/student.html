@@ -1,17 +1,17 @@
 {% extends 'iems_app/base.html' %}
 {% block content %}
-<h1>{{ semester.name }}</h1>
+    <h1>{{ semester.name }}</h1>
 
-{% if courses|length == 0 %}
-    <a href="{% url 'register' %}">Course Register</a>
+    {% if courses|length == 0 %}
+        <a href="{% url 'register' %}">Course Register</a>
 
-{% else %}
-      {% for item in courses %}
-          {{ item.course.name }}
-          {{ item.course.code }}
+    {% else %}
+        {% for item in courses %}
+            {{ item.course.name }}
+            {{ item.course.code }}
             <br>
-    {% endfor %}
-{% endif %}
+        {% endfor %}
+    {% endif %}
 
 
 {% endblock %}
