@@ -1,0 +1,14 @@
+{% extends 'iems_app/base_template.html' %}
+{% block content %}
+    <div id="form-wrapper" style="max-width:500px;margin:auto;">
+        <h1><b>Queued Students</b></h1><br>
+        {% for student in students %}
+            <a href="/queued_approval/{{ student.id }}">{{ student.name }}</a>
+            <br>
+        {% endfor %}
+        <br>
+
+    </div>
+    <br>
+
+{% endblock %}

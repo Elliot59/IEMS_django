@@ -5,11 +5,11 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.db import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
-from iems_app.models import Course, Student, Semester, CourseRegistration, Environment, Batchcounselor
+from iems_app.models import *
 from iems_app.forms import CourseModelForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.datastructures import MultiValueDictKeyError
-from iems_app.decorators import is_batchcounselor
+from iems_app.decorators import *
 
 
 def home(request):
@@ -40,7 +40,7 @@ def signupuser(request):
                     student_id=request.POST['student_id'],
                     user=user)
                 login(request, user)
-                return (HttpResponse('user created successfully .'))
+                return HttpResponse('user created successfully .')
             except IntegrityError:
                 return render(request, 'iems_app/signup.html',
                               {'form': UserCreationForm(), 'error': 'Username already exists'})
@@ -102,7 +102,7 @@ def course_list(request):
     return render(request, 'iems_app/course.html', {'courses': registered_courses})
 
 
-@login_required()
+@login_required
 def student_home(request):
     student = Student.objects.get(user=request.user)
     env = Environment.objects.get(key='current_semester_id')
@@ -111,7 +111,7 @@ def student_home(request):
     return render(request, 'iems_app/student.html', {'semester': semester, 'courses': courses})
 
 
-@login_required()
+@login_required
 def semester_create(request):
     if request.method == 'GET':
         return render(request, 'iems_app/semester.html')
@@ -125,15 +125,25 @@ def teacher_home(request):
     return render(request, 'iems_app/teacher_home.html')
 
 
-def queued_students(request):
-    students = CourseRegistration.objects.all()
-    return render(request, 'iems_app/queued_students.html', {'students': students})
+@login_required
+@batch_counselor_authorized
+def pending_course_reg_student_list(request):
+    teacher = Teacher.objects.get(user=request.user)
+    counselor = BatchCounselor.objects.get(teacher=teacher)
+    students = Student.objects.filter(batch=counselor.batch)
+    return render(request, 'iems_app/pending_course_reg_student_list.html', {'students': students})
 
 
-def queued_approval(request):
-    queued_registrations = CourseRegistration.objects.all()
-    get_data = request.GET.get('approvedBy')
-    post_data = CourseRegistration.objects.get(approvedBy=get_data)
-    post_data.save()
-    return render(request, 'iems_app/queued_approval.html',
-                  {'queued_registrations': queued_registrations, 'get_data': get_data, 'post_data': post_data})
+@batch_counselor_authorized
+def pending_course_list_by_student(request, student_id):
+    approve_request_id = request.GET.get('approve', 0)
+    if approve_request_id != 0:
+        teacher = Teacher.objects.get(user=request.user)
+        counselor = BatchCounselor.objects.get(teacher=teacher)
+        post_data = CourseRegistration.objects.get(id=approve_request_id)
+        post_data.approvedBy = counselor
+        post_data.save()
+
+    queued_registrations = CourseRegistration.objects.filter(student_id=student_id)
+    return render(request, 'iems_app/pending_course_reg_list_by_student.html',
+                  {'queued_registrations': queued_registrations, 'sid': student_id})

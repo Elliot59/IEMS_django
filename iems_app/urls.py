@@ -11,7 +11,7 @@ urlpatterns=[
     path('register/', views.course_registration, name='register'),
     path('student/', views.student_home, name='student'),
     path('teacher/dashboard', views.teacher_home, name='teacher_home'),
-    path('queued_students/', views.queued_students, name='queued_students'),
-    path('queued_approval/', views.queued_approval, name='queued_approval'),
+    path('queued_students/', views.pending_course_reg_student_list, name='queued_students'),
+    path('queued_approval/<int:student_id>', views.pending_course_list_by_student, name='queued_approval'),
     path('', views.home, name='home'),
 ]
