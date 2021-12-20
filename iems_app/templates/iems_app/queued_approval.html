@@ -1,0 +1,44 @@
+{% extends 'iems_app/base_template.html' %}
+{% block content %}
+<style>
+    th{
+        background-color: 	#E0FFFF;
+        border: 2px solid #e3e3e3;
+        padding: 12px;
+        font-weight: normal;
+        text-align: center;
+    }
+    td{
+        background-color: 	#E0FFFF;
+        border: 2px solid #e3e3e3;
+        padding: 12px;
+        text-align: center;
+    }
+</style>
+<div id="form-wrapper" style="max-width:500px;margin:auto;">
+  <h1><b>Queued Registrations</b></h1><br>
+  <table class="margin_auto">
+
+    <tr>
+      <th>Semester</th>
+      <th>Student</th>
+      <th>Course</th>
+      <th>Approve</th>
+    </tr>
+    {% for item in queued_registrations %}
+    {% if not item.approved_by %}
+    <tr>
+      <td>{{ item.semester }}</td>
+      <td>{{ item.student }}</td>
+      <td>{{ item.course }}</td>
+      <td>
+        <input type="submit" name="approvedBy" class="form-control">
+      </td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+  </table>
+</div>
+<br>
+
+{% endblock %}

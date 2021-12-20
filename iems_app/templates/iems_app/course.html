@@ -5,8 +5,14 @@
     {% for item in courses %}
       {{ item.course.name }}
       {{ item.course.code }}
-    <br>
+      {% if item.approvedBy %}
+        <p class="text-danger"">Approved !</p>
+      {% else %}
+        <p class="text-danger">Your registration is not approved yet !</p>
+      {% endif %}
     {% endfor %}
+
 </div>
+<br>
 
 {% endblock %}

@@ -50,7 +50,7 @@ class Faculty(models.Model):
     def __str__(self):
         return self.user.username
 
-class Authorization(models.Model):
+class Batchcounselor(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     startDate= models.DateTimeField(auto_now_add=True)
 
@@ -58,7 +58,7 @@ class CourseRegistration(models.Model):
     semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    approvedBy = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    approvedBy = models.ForeignKey(Batchcounselor, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.student.name
