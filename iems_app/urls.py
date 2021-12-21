@@ -13,5 +13,7 @@ urlpatterns=[
     path('teacher/dashboard', views.teacher_home, name='teacher_home'),
     path('queued_students/', views.pending_course_reg_student_list, name='queued_students'),
     path('queued_approval/<int:student_id>', views.pending_course_list_by_student, name='queued_approval'),
+    path('routine_insertion/', views.routine_insertion, name='routine_insertion'),
+    path('routine_list/', views.routine_list, name='routine_list'),
     path('', views.home, name='home'),
 ]

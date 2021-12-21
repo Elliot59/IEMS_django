@@ -1,0 +1,9 @@
+[
+  {
+    "model": "iems_app.Batch",
+    "pk": 1,
+    "fields": {
+      "name": "1st"
+    }
+  }
+]

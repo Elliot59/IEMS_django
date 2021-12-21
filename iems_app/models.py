@@ -77,3 +77,30 @@ class Environment(models.Model):
 
     def __str__(self):
         return self.key
+
+class Routine(models.Model):
+
+    class DayOfWeek(models.TextChoices):
+        Saturday = "saturday", _("Saturday")
+        Sunday = "sunday", _("Sunday")
+        Monday = "monday", _("Monday")
+        Tuesday = "tuesday", _("Tuesday")
+        Wednesday = "wednesday", _("Wednesday")
+        Thursday = "thursday", _("Thursday")
+        Friday = "friday", _("Friday")
+
+    teacher = models.CharField(max_length=128)
+    semester = models.CharField(max_length=128)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    batch = models.CharField(max_length=16)
+    #startTime = models.DateTimeField()
+    #endTime = models.DateTimeField()
+    dayOfWeek = models.CharField(max_length=64, choices=DayOfWeek.choices, default="Wednesday")
+
+
+class Attendence(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    #registered_course =
+    takenBy = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
+    dateTime = models.DateTimeField()

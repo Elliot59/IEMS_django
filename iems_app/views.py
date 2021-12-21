@@ -147,3 +147,36 @@ def pending_course_list_by_student(request, student_id):
     queued_registrations = CourseRegistration.objects.filter(student_id=student_id)
     return render(request, 'iems_app/pending_course_reg_list_by_student.html',
                   {'queued_registrations': queued_registrations, 'sid': student_id})
+
+
+def routine_insertion(request):
+    if request.method == 'GET':
+        return render(request, 'iems_app/routine_insertion.html')
+    else:
+        teacher_name = request.POST.get('teacher')
+        teacher = Teacher.objects.get(name=teacher_name)
+
+        semester_name = request.POST.get('semester')
+        semester = Semester.objects.get(name=semester_name)
+
+        course_name = request.POST.get('course')
+        course = Course.objects.get(name=course_name)
+
+        batch_name = request.POST.get('batch')
+        batch = Batch.objects.get(name=batch_name)
+
+        dayOfWeek_name = request.POST.get('dayOfWeek')
+
+        #daysOfWeek =
+
+        post_data = Routine.objects.create(teacher=teacher, semester=semester, course=course, batch=batch,
+                                           daysOfWeek_name=dayOfWeek_name)
+        post_data.save()
+        get_all_data = Routine.objects.all()
+
+        return render(request, 'iems_app/routin_list.html', {'data': get_all_data})
+
+def routine_list(request):
+    get_all_data = Routine.objects.all()
+
+    return render(request, 'iems_app/routin_list.html', {'data': get_all_data})

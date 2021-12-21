@@ -1,0 +1,41 @@
+{% extends 'iems_app/base_template.html' %}
+{% block content %}
+
+
+<form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-5">
+
+                <label>Teacher</label>
+                <input type="text" name="teacher" class="form-control">
+                <br>
+                <label>Semester</label>
+                <input type="text" name="semester" class="form-control">
+                <br>
+                <label>Course</label>
+                <input type="text" name="course" class="form-control">
+                <br>
+                <label>Batch</label>
+                <input type="text" name="batch" class="form-control">
+                <br>
+                <label>Days of Week</label>
+                <input type="text" name="dayOfWeek" class="form-control">
+                <br>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+                </div>
+                <br>
+                <h2>
+                    <a href="{% url 'routine_list' %}">Routine List</a>
+                </h2>
+
+
+            </div>
+        </div>
+    </div>
+
+</form>
+
+{% endblock %}
