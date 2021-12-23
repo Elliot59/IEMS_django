@@ -110,11 +110,10 @@ class Routine(models.Model):
         return self.teacher.name
 
 
-class Attendence(models.Model):
+class Attendance(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    # registered_course =
+    registeredCourse = models.ForeignKey(CourseRegistration, on_delete=models.CASCADE)
     takenBy = models.ForeignKey(Teacher, on_delete=models.CASCADE)
-    routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
     dateTime = models.DateTimeField()
 
     def __str__(self):

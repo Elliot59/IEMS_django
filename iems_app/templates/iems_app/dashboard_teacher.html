@@ -1,0 +1,10 @@
+<h1 align="center"> Hello Teacher ! </h1>
+<br>
+<h2 align="center">
+    <a href="{% url 'queued_students' %}">Queued Students</a>
+</h2>
+
+<br/>
+    {% for item in classes %}
+        <a href="/attendance/{{ item.course.id }}"> {{ item.course.name }} / {{ item.batch.name }} </a>
+    {% endfor %}

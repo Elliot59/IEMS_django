@@ -1,3 +1,5 @@
+import datetime
+
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
@@ -39,7 +41,7 @@ def signupuser(request):
                     batch_no=request.POST['batch_no'],
                     student_id=request.POST['student_id'],
                     user=user
-                    )
+                )
                 login(request, user)
                 return HttpResponse('user created successfully .')
             except IntegrityError:
@@ -109,7 +111,7 @@ def student_home(request):
     env = Environment.objects.get(key='current_semester_id')
     semester = Semester.objects.get(id=env.value)
     courses = CourseRegistration.objects.filter(student=student, semester=semester)
-    return render(request, 'iems_app/student.html', {'semester': semester, 'courses': courses})
+    return render(request, 'iems_app/dashboard_student.html', {'semester': semester, 'courses': courses})
 
 
 @login_required
@@ -123,7 +125,10 @@ def semester_create(request):
 
 
 def teacher_home(request):
-    return render(request, 'iems_app/teacher_home.html')
+    teacher = Teacher.objects.get(user=request.user)
+    classes = Routine.objects.filter(teacher=teacher)
+
+    return render(request, 'iems_app/dashboard_teacher.html', {'classes': classes})
 
 
 @login_required
@@ -166,25 +171,51 @@ def routine_insertion(request):
         batch_name = request.POST.get('batch')
         batch = Batch.objects.get(name=batch_name)
 
-        dayOfWeek_name = request.POST.get('dayOfWeek')
-
-        #dayOfWeek = Routine.DayOfWeek.__getattribute__(dayOfWeek_name)
+        day_of_week_string = request.POST.get('dayOfWeek')
 
         post_data = Routine.objects.create(teacher=teacher, semester=semester, course=course, batch=batch,
-                                           dayOfWeek=dayOfWeek_name)
+                                           dayOfWeek=day_of_week_string)
         post_data.save()
         get_all_data = Routine.objects.all()
 
         return render(request, 'iems_app/routine_list.html', {'data': get_all_data})
+
 
 def routine_list(request):
     get_all_data = Routine.objects.all()
 
     return render(request, 'iems_app/routine_list.html', {'get_all_data': get_all_data})
 
-def attendence_list(request):
-    student = Student.objects.all()
-    takenBy = Teacher.objects.all()
-    routine = Routine.objects.all()
-    return render(request, 'iems_app/attendence.html', {'student': student, 'takenBy': takenBy, 'routine': routine})
 
+@login_required
+@teacher_authorized
+def attendance_list(request, course_id):
+    teacher = Teacher.objects.get(user=request.user)
+
+    # at_stu_id = student id requested to add to attendance
+    at_stu_id = request.GET.get('at_stu_id', 0)
+    reg_course_id = request.GET.get('course_reg_id', 0)
+    if at_stu_id != 0 and reg_course_id != 0:
+        student = Student.objects.get(id=at_stu_id)
+        try:
+            Attendance.objects.get(student=student)
+        except ObjectDoesNotExist as e:
+            attendance = Attendance.objects.create(
+                student=student,
+                registeredCourse=CourseRegistration.objects.get(id=reg_course_id),
+                takenBy=teacher,
+                dateTime=datetime.datetime.now()
+            )
+            attendance.save()
+
+    course = Course.objects.get(id=course_id)
+
+    env = Environment.objects.get(key='current_semester_id')
+    semester = Semester.objects.get(id=env.value)
+
+    # reg_courses = CourseRegistration.objects.select_related('course').filter(student__batch_id=batch.id)
+    reg_courses = CourseRegistration.objects.filter(semester=semester, course=course)
+
+    attendees = Attendance.objects.select_related('registeredCourse').filter(registeredCourse__course_id=course_id)
+
+    return render(request, 'iems_app/attendance.html', {'courses': reg_courses, 'attendees': attendees})

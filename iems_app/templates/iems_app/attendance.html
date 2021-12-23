@@ -1,0 +1,45 @@
+{% extends 'iems_app/base_template.html' %}
+{% block content %}
+
+
+<form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-5">
+
+            <h1>Attendence Page</h1>
+            <hr>
+            <h2>Available Students</h2>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
+                {% for item in courses %}
+                <tr>
+                    <td>{{ item.student.name }}</td>
+                    <td><a href="/attendance/{{ item.course.id }}?at_stu_id={{ item.student.id }}&course_reg_id={{ item.id }}">Attend</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+            <br/>
+            <h2>Attended Students</h2>
+            <table>
+                <tr>
+                    <th>Name</th>
+                </tr>
+                {% for item in attendees %}
+                <tr>
+                    <td>{{ item.student.name }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            </div>
+        </div>
+    </div>
+
+</form>
+
+{% endblock %}
