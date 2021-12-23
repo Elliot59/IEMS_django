@@ -38,7 +38,8 @@ def signupuser(request):
                     department=request.POST['department'],
                     batch_no=request.POST['batch_no'],
                     student_id=request.POST['student_id'],
-                    user=user)
+                    user=user
+                    )
                 login(request, user)
                 return HttpResponse('user created successfully .')
             except IntegrityError:
@@ -167,16 +168,23 @@ def routine_insertion(request):
 
         dayOfWeek_name = request.POST.get('dayOfWeek')
 
-        #daysOfWeek =
+        #dayOfWeek = Routine.DayOfWeek.__getattribute__(dayOfWeek_name)
 
         post_data = Routine.objects.create(teacher=teacher, semester=semester, course=course, batch=batch,
-                                           daysOfWeek_name=dayOfWeek_name)
+                                           dayOfWeek=dayOfWeek_name)
         post_data.save()
         get_all_data = Routine.objects.all()
 
-        return render(request, 'iems_app/routin_list.html', {'data': get_all_data})
+        return render(request, 'iems_app/routine_list.html', {'data': get_all_data})
 
 def routine_list(request):
     get_all_data = Routine.objects.all()
 
-    return render(request, 'iems_app/routin_list.html', {'data': get_all_data})
+    return render(request, 'iems_app/routine_list.html', {'get_all_data': get_all_data})
+
+def attendence_list(request):
+    student = Student.objects.all()
+    takenBy = Teacher.objects.all()
+    routine = Routine.objects.all()
+    return render(request, 'iems_app/attendence.html', {'student': student, 'takenBy': takenBy, 'routine': routine})
+

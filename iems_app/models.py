@@ -7,10 +7,16 @@ from django.core.validators import MinValueValidator
 class Batch(models.Model):
     name = models.CharField(max_length=128)
 
+    def __str__(self):
+        return self.name
+
 
 class Teacher(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=42)
+
+    def __str__(self):
+        return self.name
 
 
 class Student(models.Model):
@@ -60,6 +66,9 @@ class BatchCounselor(models.Model):
     semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
     batch = models.ForeignKey(Batch, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.teacher.name
+
 
 class CourseRegistration(models.Model):
     semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
@@ -78,8 +87,8 @@ class Environment(models.Model):
     def __str__(self):
         return self.key
 
-class Routine(models.Model):
 
+class Routine(models.Model):
     class DayOfWeek(models.TextChoices):
         Saturday = "saturday", _("Saturday")
         Sunday = "sunday", _("Sunday")
@@ -89,18 +98,24 @@ class Routine(models.Model):
         Thursday = "thursday", _("Thursday")
         Friday = "friday", _("Friday")
 
-    teacher = models.CharField(max_length=128)
-    semester = models.CharField(max_length=128)
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    batch = models.CharField(max_length=16)
-    #startTime = models.DateTimeField()
-    #endTime = models.DateTimeField()
+    batch = models.ForeignKey(Batch, on_delete=models.CASCADE)
+    # startTime = models.DateTimeField()
+    # endTime = models.DateTimeField()
     dayOfWeek = models.CharField(max_length=64, choices=DayOfWeek.choices, default="Wednesday")
+
+    def __str__(self):
+        return self.teacher.name
 
 
 class Attendence(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    #registered_course =
+    # registered_course =
     takenBy = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
     dateTime = models.DateTimeField()
+
+    def __str__(self):
+        return self.student.name

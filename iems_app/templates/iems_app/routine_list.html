@@ -1,9 +1,40 @@
 {% extends 'iems_app/base_template.html' %}
 {% block content %}
+
+  <style>
+        th {
+            background-color: #E0FFFF;
+            border: 2px solid #e3e3e3;
+            padding: 12px;
+            font-weight: normal;
+            text-align: center;
+        }
+
+        td {
+            background-color: #E0FFFF;
+            border: 2px solid #e3e3e3;
+            padding: 12px;
+            text-align: center;
+        }
+    </style>
+
 <div id="form-wrapper" style="max-width:500px;margin:auto;">
-  <pre>
-      {{ data }}
-  </pre>
+
+
+    <table class="margin-auto">
+        <tr>
+            <th><b>Teacher</b></th>
+            <th><b>Semester</b></th>
+        </tr>
+        {% for item in get_all_data %}
+        <tr>
+            <td>{{ item.teacher.name }}</td>
+            <td>{{ item.semester.name }}</td>
+        </tr>
+
+        {% endfor %}
+    </table>
+
 </div>
 <br>
 

@@ -1,0 +1,30 @@
+{% extends 'iems_app/base_template.html' %}
+{% block content %}
+
+
+<form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-5">
+
+                <h1>Attendence Page<h1>
+                    {% for item in student %}
+                        {{ item.student.name }}
+                    {% endfor %}
+
+                    {% for item in takenBy %}
+                        {{ item.teacher.name }}
+                    {% endfor %}
+
+                    {% for item in routine %}
+                        {{ routine.course.name }}
+                    {% endfor %}
+
+            </div>
+        </div>
+    </div>
+
+</form>
+
+{% endblock %}
