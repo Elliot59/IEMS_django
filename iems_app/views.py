@@ -21,7 +21,7 @@ def home(request):
             return redirect('teacher_home')
 
     else:
-        return render(request, 'iems_app/unauthorized.html')
+        return redirect('login')
 
 
 # @user_passes_test
